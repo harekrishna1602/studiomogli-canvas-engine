@@ -171,8 +171,13 @@ export class AudioEngine {
       return
     }
 
-    this.analyser.getByteFrequencyData(this.freqData)
-    this.analyser.getByteTimeDomainData(this.timeData)
+  this.analyser.getByteFrequencyData(
+  this.freqData as Uint8Array
+)
+
+this.analyser.getByteTimeDomainData(
+  this.timeData as Uint8Array
+)
 
     const frame = this.computeFrame()
     this.onFrame?.(frame)
