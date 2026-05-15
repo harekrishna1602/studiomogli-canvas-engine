@@ -1,0 +1,329 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   DESIGN TOKENS
+   ============================================ */
+:root {
+  /* Colors */
+  --bg: #080808;
+  --bg-surface: #0e0e0e;
+  --bg-surface2: #141414;
+  --bg-surface3: #1a1a1a;
+  --orange: #FF6B00;
+  --orange-dim: rgba(255, 107, 0, 0.08);
+  --orange-mid: rgba(255, 107, 0, 0.25);
+  --orange-glow: rgba(255, 107, 0, 0.15);
+  --text: #f0ece6;
+  --text-muted: #888880;
+  --text-dim: #555550;
+  --border: rgba(255, 255, 255, 0.05);
+  --border-hover: rgba(255, 255, 255, 0.1);
+  --border-glow: rgba(255, 107, 0, 0.2);
+  --border-glow-strong: rgba(255, 107, 0, 0.4);
+
+  /* Typography */
+  --font-display: 'Syne', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+
+  /* Spacing */
+  --panel-pad: 20px;
+  --section-gap: 32px;
+
+  /* Z-index */
+  --z-canvas: 0;
+  --z-overlay: 10;
+  --z-hud: 20;
+  --z-panel: 30;
+  --z-modal: 50;
+  --z-nav: 100;
+}
+
+/* ============================================
+   BASE RESET
+   ============================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-glow); }
+
+/* ============================================
+   LAYOUT UTILITIES
+   ============================================ */
+@layer utilities {
+  .font-mono-sm {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .label-caps {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .glow-text {
+    color: var(--orange);
+    text-shadow: 0 0 20px rgba(255, 107, 0, 0.4);
+  }
+
+  .glass {
+    background: rgba(14, 14, 14, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+  }
+
+  .glass-orange {
+    background: rgba(255, 107, 0, 0.04);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glow);
+  }
+
+  .panel-section {
+    padding-bottom: var(--section-gap);
+    margin-bottom: var(--section-gap);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .panel-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+}
+
+/* ============================================
+   COMPONENT STYLES
+   ============================================ */
+@layer components {
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    @apply btn;
+    background: var(--orange);
+    color: #000;
+    padding: 14px 36px;
+  }
+  .btn-primary:hover {
+    background: #fff;
+    transform: translateY(-2px);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn-ghost {
+    @apply btn;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border-glow);
+    padding: 13px 28px;
+  }
+  .btn-ghost:hover {
+    border-color: var(--orange);
+    color: var(--orange);
+  }
+
+  .btn-icon {
+    @apply btn;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    font-size: 16px;
+  }
+  .btn-icon:hover {
+    border-color: var(--border-glow);
+    color: var(--orange);
+  }
+
+  /* Form inputs */
+  .input {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 13px;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .input:focus {
+    border-color: var(--border-glow);
+  }
+
+  /* Range slider */
+  .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 2px;
+    background: var(--bg-surface3);
+    outline: none;
+    cursor: pointer;
+    border-radius: 1px;
+  }
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--orange);
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .slider::-webkit-slider-thumb:hover {
+    transform: scale(1.4);
+  }
+  .slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border: none;
+    border-radius: 50%;
+    background: var(--orange);
+    cursor: pointer;
+  }
+  .slider::-webkit-slider-runnable-track {
+    background: linear-gradient(
+      to right,
+      var(--orange) 0%,
+      var(--orange) var(--progress, 50%),
+      var(--bg-surface3) var(--progress, 50%)
+    );
+    height: 2px;
+    border-radius: 1px;
+  }
+}
+
+/* ============================================
+   CANVAS RENDERING
+   ============================================ */
+canvas {
+  display: block;
+}
+
+/* ============================================
+   THREE.JS CANVAS OVERRIDE
+   ============================================ */
+.r3f-canvas canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ============================================
+   HUD ELEMENTS
+   ============================================ */
+.hud-text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(255, 107, 0, 0.6);
+  letter-spacing: 0.12em;
+  line-height: 1.8;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes recordPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes beatFlash {
+  0% { opacity: 0.15; }
+  100% { opacity: 0; }
+}
+
+@keyframes scanLine {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes waveform {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.7); }
+}
+
+.animate-record {
+  animation: recordPulse 1.2s ease-in-out infinite;
+}
+
+/* ============================================
+   LANDING PAGE SPECIFIC
+   ============================================ */
+.landing-container {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100vh;
+}
+
+.hero-gradient {
+  background: radial-gradient(
+    ellipse 80% 50% at 50% 60%,
+    rgba(255, 107, 0, 0.04) 0%,
+    transparent 70%
+  );
+}
+
+/* Noise overlay */
+.noise-overlay::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* ============================================
+   SELECTION
+   ============================================ */
+::selection {
+  background: var(--orange-mid);
+  color: var(--text);
+}
