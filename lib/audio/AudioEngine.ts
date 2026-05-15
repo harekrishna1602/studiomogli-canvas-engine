@@ -171,17 +171,13 @@ export class AudioEngine {
       return
     }
 
-  this.analyser.getByteFrequencyData(
-  this.freqData as Uint8Array
+this.analyser.getByteFrequencyData(
+  this.freqData as unknown as Uint8Array<ArrayBuffer>
 )
 
 this.analyser.getByteTimeDomainData(
-  this.timeData as Uint8Array
+  this.timeData as unknown as Uint8Array<ArrayBuffer>
 )
-
-    const frame = this.computeFrame()
-    this.onFrame?.(frame)
-  }
 
   // ─── Frame Computation ────────────────────────────────────────────────────
 
